@@ -87,3 +87,9 @@ input {
 	color: blue;
 	
 }
+
+.error {
+	color: red;
+	font-style: italic;
+	margin: 5px;
+}

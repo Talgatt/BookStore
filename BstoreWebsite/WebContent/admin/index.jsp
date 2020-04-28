@@ -16,7 +16,6 @@
 	</div>
 	
 	
-	
 	<div align="center">
 		<hr width="60%"/>
 		<h2 class="pageheading">Quick Actions:</h2>

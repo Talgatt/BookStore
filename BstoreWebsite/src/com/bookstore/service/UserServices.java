@@ -35,6 +35,20 @@ public class UserServices {
 		
 	}
 
+	public UserServices(EntityManager entityManager, HttpServletRequest request, HttpServletResponse response) {
+		this.request = request;
+		this.response = response;
+		
+		entityManagerFactory = Persistence.createEntityManagerFactory("BstoreWebsite");
+		entityManager = entityManagerFactory.createEntityManager();
+		
+		//entityManager.getTransaction().begin();
+		//entityManager.persist(user1);
+		userDAO = new UserDAO(entityManager);
+			
+	
+	}
+
 	public void listUser()
 	throws ServletException, IOException {
 		List<Users> listUsers = userDAO.listAll();
@@ -161,5 +175,29 @@ public class UserServices {
 		listUser(message);
 		
 		
+	}
+	
+	public void login() throws ServletException, IOException {
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		
+		boolean loginResult = userDAO .checkLogin(email, password);
+		
+		if (loginResult) {
+			request.getSession().setAttribute("useremail", email);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/");
+			dispatcher.forward(request, response);
+			
+			
+		} else {
+			String message = "Login failed!";
+			request.setAttribute("message", message);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+			dispatcher.forward(request, response);
+
+			
+		}
 	}
 }
